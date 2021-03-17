@@ -1,36 +1,34 @@
 import Match from '../type/match';
-import Record from '../type/record';
-
-export const getDefaultRecord = (): Record => ({
-  rank: -1,
-  team: '',
-  win: -1,
-  draw: -1,
-  lose: -1,
-  detail: '',
-});
-
-export const isValidRecord = (record: Record): boolean =>
-  record.lose >= 0 &&
-  record.win >= 0 &&
-  record.draw >= 0 &&
-  record.rank >= 0 &&
-  record.team != '' &&
-  record.detail != '';
+import Team from '../type/team';
 
 export const getDefaultMatch = (): Match => ({
+  league: '',
   time: '',
   host: '',
   away: '',
   full: '',
   half: '',
   handicap: '',
+  hilo: '',
+  oddeven: '',
 });
 
 export const isValidMatch = (match: Match): boolean =>
+  match.league != '' &&
   match.time != '' &&
   match.host != '' &&
   match.away != '' &&
   match.full != '' &&
   match.half != '' &&
-  match.handicap != '';
+  match.handicap != '' &&
+  match.hilo != '' &&
+  match.oddeven != '';
+
+export const getDefaultTeam = (): Team => ({
+  tid: -1,
+  lid: -1,
+  name: '',
+});
+
+export const isValidTeam = (team: Team): boolean =>
+  team.tid != -1 && team.lid != -1 && team.name != '';

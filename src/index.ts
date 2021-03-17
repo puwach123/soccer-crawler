@@ -1,12 +1,13 @@
 import TeamCrawler from './crawler/team';
 import MatchCrawler from './crawler/match';
-import ConsoleExporter from './exporter/console';
 import JSONExporter from './exporter/json';
-import Team from './type/team';
+
+import NormalizedMatch from './type/normalize/match';
+import NormalizedMatches from './type/normalize/matches';
+import NormalizedTeam from './type/normalize/team';
 
 import leagues from './data/leagues.json';
 import teams from './data/teams.json';
-import Match from './type/match';
 
 const genTeamURL = (lid: number): string =>
   `http://app.gooooal.com/odds.do?lid=${lid}&sid=2020&lang=tr`;
@@ -16,7 +17,7 @@ const genMatchURL = (lid: number, tid: number): string =>
 async function getTeamData() {
   try {
     const exporter = new JSONExporter('teams.json');
-    const odata: { [lid: string]: Team[] } = {};
+    const odata: NormalizedTeam = {};
     for (const league of leagues) {
       const url = genTeamURL(league.lid);
       const crawler = new TeamCrawler(url);
@@ -32,15 +33,15 @@ async function getTeamData() {
 async function getMatchData() {
   try {
     const exporter = new JSONExporter('matchs.json');
-    const odata: { [lid: string]: { [tid: string]: Match[] }[] } = {};
-    const idata = teams as { [lid: string]: Team[] };
+    const odata: NormalizedMatches = {};
+    const idata = teams as NormalizedTeam;
     for (const lid in idata) {
       odata[lid] = [];
       for (const team of idata[lid]) {
         const url = genMatchURL(team.lid, team.tid);
         const crawler = new MatchCrawler(url);
         await crawler.run();
-        const tmp: { [tid: string]: Match[] } = {};
+        const tmp: NormalizedMatch = {};
         tmp[team.tid] = crawler.data();
         odata[lid].push(tmp);
       }

@@ -1,5 +1,5 @@
-import Team from "../team";
+import Team from '../team';
 
 export default interface NormalizedTeam {
-  [lid: string]: Team[]
+  [lid: string]: Team[];
 }

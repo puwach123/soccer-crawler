@@ -1,4 +1,3 @@
-import Exporter from '../exporter/exporter';
 import { getDefaultMatch, isValidMatch } from '../misc/helper';
 import Match from '../type/match';
 import BaseCrawler from './base';

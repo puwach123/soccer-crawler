@@ -1,7 +1,7 @@
-import TeamCrawler from "../crawler/team";
-import JSONExporter from "../exporter/json";
-import League from "../type/league";
-import NormalizedTeam from "../type/normalize/team";
+import TeamCrawler from '../crawler/team';
+import JSONExporter from '../exporter/json';
+import League from '../type/league';
+import NormalizedTeam from '../type/normalize/team';
 
 import leagues from '../data/leagues.json';
 

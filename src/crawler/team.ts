@@ -1,4 +1,3 @@
-import Exporter from '../exporter/exporter';
 import { getDefaultTeam, isValidTeam } from '../misc/helper';
 import Team from '../type/team';
 import BaseCrawler from './base';

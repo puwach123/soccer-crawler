@@ -1,14 +1,13 @@
-import MatchCrawler from "../crawler/match";
-import JSONExporter from "../exporter/json";
-import NormalizedMatch from "../type/normalize/match";
-import NormalizedMatches from "../type/normalize/matches";
-import NormalizedTeam from "../type/normalize/team";
+import MatchCrawler from '../crawler/match';
+import JSONExporter from '../exporter/json';
+import NormalizedMatch from '../type/normalize/match';
+import NormalizedMatches from '../type/normalize/matches';
+import NormalizedTeam from '../type/normalize/team';
 
 import teams from '../data/teams.json';
 
 const genMatchURL = (lid: number, tid: number): string =>
   `http://app.gooooal.com/teamAllMatch.do?sid=2020&lid=${lid}&tid=${tid}&t=2&lang=tr`;
-
 
 export default async function getMatchData() {
   try {

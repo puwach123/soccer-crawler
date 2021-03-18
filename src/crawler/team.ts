@@ -3,8 +3,12 @@ import { getDefaultTeam, isValidTeam } from '../misc/helper';
 import Team from '../type/team';
 import BaseCrawler from './base';
 
+interface ColDef {
+  [key: string]: number;
+}
+
 export default class TeamCrawler extends BaseCrawler {
-  private coldef: { [key: string]: number } = {
+  private coldef: ColDef = {
     rank: 0,
     team: 1,
     win: 2,
@@ -21,7 +25,7 @@ export default class TeamCrawler extends BaseCrawler {
   }
 
   public fetch(root: cheerio.Root): void {
-    root('tbody > tr#data_odds_fbStatTeam_0_0').each((_, tr) => {
+    root('#data_odds_fbStatTeam_0_0').each((_, tr) => {
       let team: Team = getDefaultTeam();
       root(tr)
         .find('td')
@@ -53,9 +57,5 @@ export default class TeamCrawler extends BaseCrawler {
 
   public data(): Team[] {
     return [...this.teams];
-  }
-
-  public exporto(exporter: Exporter<Team[]>): void {
-    exporter.export(this.teams);
   }
 }

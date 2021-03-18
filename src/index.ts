@@ -1,55 +1,19 @@
-import TeamCrawler from './crawler/team';
-import MatchCrawler from './crawler/match';
-import JSONExporter from './exporter/json';
+import { Command } from 'commander';
+import getMatchData from './command/getmatchdata';
+import getTeamData from './command/getteamdata';
 
-import NormalizedMatch from './type/normalize/match';
-import NormalizedMatches from './type/normalize/matches';
-import NormalizedTeam from './type/normalize/team';
+const program = new Command();
 
-import leagues from './data/leagues.json';
-import teams from './data/teams.json';
+program.version('1.0.0').description('Command Line Crawler');
 
-const genTeamURL = (lid: number): string =>
-  `http://app.gooooal.com/odds.do?lid=${lid}&sid=2020&lang=tr`;
-const genMatchURL = (lid: number, tid: number): string =>
-  `http://app.gooooal.com/teamAllMatch.do?sid=2020&lid=${lid}&tid=${tid}&t=2&lang=tr`;
+program
+  .command('team')
+  .description('crawl information of teams')
+  .action(() => getTeamData());
 
-async function getTeamData() {
-  try {
-    const exporter = new JSONExporter('teams.json');
-    const odata: NormalizedTeam = {};
-    for (const league of leagues) {
-      const url = genTeamURL(league.lid);
-      const crawler = new TeamCrawler(url);
-      await crawler.run();
-      odata[league.lid] = crawler.data();
-    }
-    exporter.export(odata);
-  } catch (error) {
-    console.error(error);
-  }
-}
+program
+  .command('match')
+  .description('crawl information of matches')
+  .action(() => getMatchData());
 
-async function getMatchData() {
-  try {
-    const exporter = new JSONExporter('matchs.json');
-    const odata: NormalizedMatches = {};
-    const idata = teams as NormalizedTeam;
-    for (const lid in idata) {
-      odata[lid] = [];
-      for (const team of idata[lid]) {
-        const url = genMatchURL(team.lid, team.tid);
-        const crawler = new MatchCrawler(url);
-        await crawler.run();
-        const tmp: NormalizedMatch = {};
-        tmp[team.tid] = crawler.data();
-        odata[lid].push(tmp);
-      }
-    }
-    exporter.export(odata);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-getMatchData();
+program.parse(process.argv);

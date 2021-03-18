@@ -3,8 +3,12 @@ import { getDefaultMatch, isValidMatch } from '../misc/helper';
 import Match from '../type/match';
 import BaseCrawler from './base';
 
+interface ColDef {
+  [key: string]: number;
+}
+
 export default class MatchCrawler extends BaseCrawler {
-  private coldef: { [key: string]: number } = {
+  private coldef: ColDef = {
     league: 0,
     time: 1,
     host: 2,
@@ -23,7 +27,7 @@ export default class MatchCrawler extends BaseCrawler {
   }
 
   public fetch(root: cheerio.Root): void {
-    root('table#fb_match_odds_result_table_0_0 > tbody > tr').each((_, tr) => {
+    root('#fb_match_odds_result_table_0_0 > tbody > tr').each((_, tr) => {
       let match: Match = getDefaultMatch();
       root(tr)
         .find('td')
@@ -94,9 +98,5 @@ export default class MatchCrawler extends BaseCrawler {
 
   public data(): Match[] {
     return [...this.matchs];
-  }
-
-  public exporto(exporter: Exporter<Match[]>): void {
-    exporter.export(this.matchs);
   }
 }

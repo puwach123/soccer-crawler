@@ -1,5 +1,5 @@
-import NormalizedMatch from './match';
+import Match from '../match';
 
 export default interface NormalizedMatches {
-  [lid: string]: NormalizedMatch[];
+  [league: string]: { [team: string]: Match[] };
 }

@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import getMatchData from './command/getmatchdata';
-import getTeamData from './command/getteamdata';
+import getMatchData from './func/getmatchdata';
+import getTeamData from './func/getteamdata';
 
 const program = new Command();
 

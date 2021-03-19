@@ -8,10 +8,8 @@ import NormalizedTeam from '../type/normalize/team';
 const genMatchURL = (lid: number, tid: number): string =>
   `http://app.gooooal.com/teamAllMatch.do?sid=2020&lid=${lid}&tid=${tid}&t=2&lang=tr`;
 
-export default async function getMatchData() {
+export default async function getMatchData(ipath: string, opath: string) {
   try {
-    const ipath = `C:\\Users\\admin\\Desktop\\scraper\\src\\data\\teams.json`;
-    const opath = `C:\\Users\\admin\\Desktop\\scraper\\src\\data\\matchs.json`;
     const exporter = new JSONExporter<NormalizedMatches>(opath);
     const importer = new JSONImporter<NormalizedTeam>(ipath);
     const idata = importer.import();
